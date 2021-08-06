@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Sign In to Forecheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+  :root {
+    --error-color: #DC6C90;
+  }
+
+  body,
+  html {
+    height: 100%;
+    background-color: #E5E5E5;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  .login-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-box {
+    width: 50vw;
+    min-width: 374px;
+    max-width: 650px;
+    padding: 48px 64px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: -8px 4px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .login-header {
+    text-align: center;
+  }
+
+  .login-header h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #2D2C2C;
+  }
+
+  .login-header img {
+    width: 160px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .form-group input {
+    padding: 13px 32px 13px 16px;
+    height: max-content;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    font-size: 18px;
+    border: 1px solid transparent;
+  }
+
+  .form-group.error input {
+    border-color: var(--error-color);
+  }
+
+  .form-group input:focus {
+    outline: none;
+  }
+
+  .form-control input:placeholder {
+    color: #B6B6B6;
+  }
+
+  .err-text {
+    color: var(--error-color);
+    position: absolute;
+    bottom: -20px;
+    width: max-content;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .captcha-container {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 58px;
+  }
+
+  .captcha-challenge {
+    display: flex;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 0.4px solid #B6B6B6;
+    box-sizing: border-box;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+
+  }
+
+  .captcha-challenge img {
+    width: 75%;
+  }
+
+  .captcha-challenge button {
+    align-self: flex-start;
+    border: none;
+    font-size: 24px;
+    background: none;
+  }
+
+  #error-message {
+    display: none;
+    white-space: break-spaces;
+  }
+
+  .btn-primary {
+    margin-top: 40px;
+    padding: 16px 40px;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0 auto;
+    width: auto;
+    background: #4B59C7;
+    border-radius: 8px;
+  }
+
+  .show-pass-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    border: none;
+    background: none;
+  }
+
+  .btn-forgot {
+    background: none;
+    margin: 24px auto 20px;
+    width: auto;
+    display: block;
+    color: #505050;
+    font-weight: normal;
+    font-size: 14px;
+    text-decoration: underline;
+  }
+
+  .password-recover-msg {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .error-message {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    text-align: center;
+    margin: 0px auto;
+    width: 100%;
+  }
+
+  .d-none {
+    display: none
+  }
+
+  .field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media screen and (max-width: 769px) {
+    .login-box {
+      min-width: 360px;
+      padding: 20px;
+    }
+
+    .btn-forgot {
+      margin: 24px auto 35px;
+    }
+  }
+
+  @media screen and (max-width: 374px) {
+    .login-box {
+      min-width: 310px;
+      padding: 10px;
+      top: 10px;
+      transform: none;
+    }
+  }
+
+  @media screen and (max-height: 400px) {
+    .login-box {
+      top: 10px;
+      transform: none;
+    }
+  }
+</style>
+
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <img
+          src="https://uploads-ssl.webflow.com/603e98943a136920ab2152e8/6063979018b1e075c517cdd6_forecheck%20dark-02-p-500.png" />
+        <h3 class="login-header-text">Log In</h3>
+      </div>
+      <form onsubmit="return false;" method="post" id="form-login">
+        <div class="form-group">
+          <input type="text" name="email" id="email" autocomplete="off" placeholder="Email">
+          <small class="err-text"></small>
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" id="password" autocomplete="off" placeholder="Password">
+          <button class="show-pass-btn d-none">
+            <i class="bi bi-eye"></i>
+          </button>
+          <small class="err-text"></small>
+        </div>
+        <div class="captcha-container form-group" id="captcha"><small></small></div>
+        <div class="alert alert-danger error-message form-group"></div>
+        <button type="submit" id="btn-login" class="btn btn-primary btn-block">
+          LOGIN
+        </button>
+        <button type="button" id="btn-forgot-password" class="btn btn-forgot">
+          Forgot your password?
+        </button>
+      </form>
+      <form onsubmit="return false;" method="post" id="form_recover" class='form-recover d-none'>
+        <div class="form-group">
+          <input type="text" name="email" id="email-recover" autocomplete="off" placeholder="Email">
+          <small class="err-text"></small>
+        </div>
+        <div class="password-recover-msg d-none">An emain has been send. Please click the link when you get it.</div>
+        <button type="button" id="btn-confirm" class="btn btn-primary btn-block">
+          CONFIRM
+        </button>
+        <button type="button" id="btn-resend" class="btn btn-primary btn-block d-none">
+          RESEND EMAIL
+        </button>
+        <button type="button" id="btn-return" class="btn btn-forgot">
+          Return to Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!--[if IE 8]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ie8/0.2.5/ie8.js"></script>
+  <![endif]-->
+
+  <!--[if lte IE 9]>
+  <script src="https://cdn.auth0.com/js/polyfills/1.0/base64.min.js"></script>
+  <script src="https://cdn.auth0.com/js/polyfills/1.0/es5-shim.min.js"></script>
+  <![endif]-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+  <script src="https://cdn.auth0.com/js/auth0/9.16/auth0.min.js"></script>
+  <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var config = JSON.parse(
+        decodeURIComponent(escape(window.atob('@@config@@')))
+      );
+
+      var leeway = config.internalOptions.leeway;
+      if (leeway) {
+        var convertedLeeway = parseInt(leeway);
+
+        if (!isNaN(convertedLeeway)) {
+          config.internalOptions.leeway = convertedLeeway;
+        }
+      }
+
+      var params = Object.assign({
+        overrides: {
+          __tenant: config.auth0Tenant,
+          __token_issuer: config.authorizationServer.issuer
+        },
+        domain: config.auth0Domain,
+        clientID: config.clientID,
+        redirectUri: config.callbackURL,
+        responseType: 'code'
+      }, config.internalOptions);
+
+      var webAuth = new auth0.WebAuth(params);
+      var databaseConnection = 'Username-Password-Authentication';
+      var captcha = webAuth.renderCaptcha(
+        document.querySelector('.captcha-container')
+      );
+
+      //variables 
+      const emailEl = document.querySelector('#email');
+      const emailElrecover = document.querySelector('#email-recover');
+      const passwordEl = document.querySelector('#password');
+      const form = document.querySelector('#form-login');
+      const formRecover = document.querySelector('#form_recover');
+      //check valiadation actions 
+      const isBetween = (length, min, max) => length < min || length > max ? false : true;
+
+      const isRequired = value => value === '' ? false : true;
+
+      const isEmailValid = (email) => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      };
+
+      const isPasswordSecure = (password) => {
+        const re = new RegExp("^(?=.{8,})");
+        return re.test(password);
+      };
+      //debounce
+      const debounce = (fn, delay = 500) => {
+        let timeoutId;
+        return (...args) => {
+
+          if (timeoutId) {
+            clearTimeout(timeoutId);
+          }
+
+          timeoutId = setTimeout(() => {
+            fn.apply(null, args)
+          }, delay);
+        };
+      };
+
+      //errors functions
+      const showError = (input, message) => {
+        // get the form-field element
+        const formField = input.parentElement;
+        // add the error class
+        formField.classList.remove('success');
+        formField.classList.add('error');
+
+        // show the error message
+        const error = formField.querySelector('.err-text');
+        error.textContent = message;
+      };
+
+      const showSuccess = (input) => {
+        // get the form-field element
+        const formField = input.parentElement;
+
+        // remove the error class
+        formField.classList.remove('error');
+        formField.classList.add('success');
+
+        // hide the error message
+        const error = formField.querySelector('.err-text');
+        error.textContent = '';
+      }
+
+      //validate functions
+
+      const checkEmail = () => {
+        let valid = false;
+        const email = emailEl.value.trim();
+
+        if (!isRequired(email)) {
+          showError(emailEl, 'Email cannot be blank.');
+        } else if (!isEmailValid(email)) {
+          showError(emailEl, 'Email is not valid.')
+        } else {
+          showSuccess(emailEl);
+          valid = true;
+        }
+        return valid;
+      }
+
+      const checkRecoverEmail = () => {
+        let valid = false;
+        const email = emailElrecover.value.trim();
+        if (!isRequired(email)) {
+          showError(emailElrecover, 'Email cannot be blank.');
+        } else if (!isEmailValid(email)) {
+          showError(emailElrecover, 'Email is not valid.')
+        } else {
+          showSuccess(emailElrecover);
+          valid = true;
+        }
+        return valid;
+      }
+
+
+      const checkPassword = () => {
+        let valid = false;
+
+        const password = passwordEl.value.trim();
+        const showPassBtn = document.querySelector('.show-pass-btn')
+
+        if (password.length === 0) {
+          showPassBtn.classList.add('d-none')
+        } else {
+          showPassBtn.classList.remove('d-none')
+        }
+
+        if (!isRequired(password)) {
+          showError(passwordEl, 'Password cannot be blank.');
+        } else if (!isPasswordSecure(password)) {
+          showError(passwordEl, 'Password must has at least 8 characters');
+        } else {
+          showSuccess(passwordEl);
+          valid = true;
+        }
+
+        return valid;
+      };
+
+      //login action and confirm reset action
+      function login(e) {
+        e.preventDefault();
+        var button = this;
+        clearErrors();
+        let isEmailValid = checkEmail();
+        let isPasswordValid = checkPassword();
+
+        let isFormValid = isEmailValid && isPasswordValid;
+
+        if (isFormValid) {
+          webAuth.login({
+            realm: databaseConnection,
+            username: email.value,
+            password: password.value,
+            captcha: captcha.getValue()
+          }, function (err) {
+            if (err) {
+              displayError(err);
+            }
+            else {
+              console.error('unknown error', err);
+            }
+          });
+        }
+      }
+
+      function confirmChangePassword(e) {
+        e.preventDefault();
+
+        let isEmailValid = checkRecoverEmail();
+        if (isEmailValid) {
+          webAuth.changePassword({
+            connection: databaseConnection,
+            email: emailElrecover.value
+          }, function (err, resp) {
+            if (resp) {
+              emailElrecover.classList.add('d-none')
+              confirmBtn.classList.add('d-none')
+              msgConfirm.classList.remove('d-none')
+              resendBTN.classList.remove('d-none')
+            }
+          });
+
+        }
+      }
+
+      // inputs listeners
+      form.addEventListener('input', debounce(function (e) {
+        switch (e.target.id) {
+          case 'email':
+            checkEmail();
+            break;
+          case 'password':
+            checkPassword();
+            break;
+        }
+      }));
+
+      formRecover.addEventListener('input', debounce(function (e) {
+        switch (e.target.id) {
+          case 'email-recover':
+            checkRecoverEmail();
+            break;
+        }
+      }));
+
+      //errors
+      function clearErrors() {
+        var errorMessage = document.querySelector('.error-message');
+        errorMessage.innerHTML = "";
+        errorMessage.style.display = 'none';
+      }
+
+      function displayError(err) {
+        captcha.reload();
+        var errorMessage = document.querySelector('.error-message');
+        errorMessage.innerHTML = err.policy || err.description;
+        errorMessage.style.display = 'block';
+      }
+
+      function ressetErrors(el) {
+        var divs = el.querySelectorAll(".form-group")
+        const errors = el.querySelectorAll('small');
+        for (let i = 0; i < errors.length; i++) {
+          divs[i].classList.remove('error');
+          errors[i].innerHTML = '';
+        }
+      }
+
+      //change password confirm action
+      const resendBTN = document.querySelector('#btn-resend');
+      const confirmBtn = document.getElementById('btn-confirm');
+      var msgConfirm = document.querySelector('.password-recover-msg');
+
+      //resend action
+      function resendEmail() {
+        emailElrecover.classList.remove('d-none')
+        confirmBtn.classList.remove('d-none')
+        msgConfirm.classList.add('d-none')
+        resendBTN.classList.add('d-none')
+        emailElrecover.value = ''
+      }
+
+      //show password action
+      function showPassword() {
+        var input = document.getElementById("password");
+        var icon = document.querySelector(".bi");
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.remove('bi-eye')
+          icon.classList.add('bi-eye-slash')
+        } else {
+          input.type = "password";
+          icon.classList.add('bi-eye')
+          icon.classList.remove('bi-eye-slash')
+        }
+      }
+
+
+      //change page of login or password recover
+      document.getElementById('btn-forgot-password').addEventListener('click', () => {
+        formRecover.classList.remove('d-none');
+        form.classList.add('d-none');
+        document.querySelector('.login-header-text').innerHTML = "Password Recover"
+        ressetErrors(form)
+        clearErrors()
+      })
+
+      document.getElementById('btn-return').addEventListener('click', () => {
+        formRecover.classList.add('d-none');
+        form.classList.remove('d-none');
+        ressetErrors(formRecover)
+        document.querySelector('.login-header-text').innerHTML = "Log In"
+      })
+
+
+      //listeners
+      document.getElementById('btn-login').addEventListener('click', login);
+      document.querySelector('.show-pass-btn').addEventListener('click', showPassword);
+      confirmBtn.addEventListener('click', confirmChangePassword);
+      resendBTN.addEventListener('click', resendEmail);
+    });
+  </script>
+</body>
+
+</html>
